@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CPID SERVER STATUS</title>
+
+<style>
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',sans-serif;}
+body{background: radial-gradient(circle at top,#0b1220,#02050a);color:#00ffe1;overflow-x:hidden;}
+
+/* ULTRA STYLISH HEADER */
+header{
+padding:20px;
+text-align:center;
+background:rgba(255,255,255,0.03);
+backdrop-filter:blur(20px);
+border-bottom:1px solid rgba(0,255,255,0.1);
+position:relative;
+}
+
+.ultraHeader{
+font-size:3rem;
+font-weight:900;
+background: linear-gradient(270deg, #00ffe1, #00aaff, #ff00cc, #fffc00, #ff5500);
+background-size: 800% 800%;
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+animation: gradientMove 8s ease infinite, flicker 1.2s infinite;
+text-shadow:
+0 0 5px #00ffe1,
+0 0 10px #00aaff,
+0 0 20px #ff00cc,
+0 0 30px #fffc00,
+0 0 50px #ff5500,
+0 0 80px #00ffe1;
+letter-spacing:3px;
+position:relative;
+}
+
+.ultraHeader::before{
+content:"";
+position:absolute;
+top:-10px;left:-10px;
+width:calc(100% + 20px);
+height:calc(100% + 20px);
+border-radius:8px;
+box-shadow:
+0 0 15px #00ffe1,
+0 0 25px #00aaff,
+0 0 40px #ff00cc;
+animation: glowPulse 2.5s infinite alternate;
+z-index:-1;
+}
+
+@keyframes gradientMove{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+@keyframes flicker{0%,18%,22%,25%,53%,57%,100%{opacity:1;}20%,24%,55%{opacity:0.7;}}
+@keyframes glowPulse{0%{transform:scale(1);opacity:0.6;}50%{transform:scale(1.05);opacity:0.8;}100%{transform:scale(1);opacity:0.6;}}
+
+/* NAV */
+nav{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;padding:15px;}
+nav button{padding:10px 15px;border-radius:12px;border:1px solid rgba(0,255,255,0.2);background:rgba(255,255,255,0.03);color:#00ffe1;cursor:pointer;transition:0.3s;}
+nav button:hover{transform:scale(1.05);box-shadow:0 0 15px rgba(0,255,255,0.3);}
+
+/* GRID */
+#grid{display:grid;grid-template-columns:repeat(1,1fr);gap:12px;padding:15px;}
+@media(min-width:600px){#grid{grid-template-columns:repeat(2,1fr);}}
+
+/* CARD */
+.card{
+padding:16px;
+border-radius:15px;
+background:rgba(255,255,255,0.04);
+border:1px solid rgba(0,255,255,0.15);
+display:flex;
+justify-content:space-between;
+align-items:center;
+transition:0.3s;
+position:relative;
+overflow:hidden;
+}
+.card:hover{transform:scale(1.03);box-shadow:0 0 25px rgba(0,255,255,0.25);}
+
+/* PRICE TAG */
+.priceTag{
+padding:5px 12px;
+border-radius:12px;
+background:rgba(0,255,153,0.08);
+border:1px solid rgba(0,255,153,0.4);
+font-size:13px;
+font-weight:bold;
+color:#00ff99;
+text-shadow:0 0 8px #00ff99,0 0 15px #00ff99;
+backdrop-filter:blur(8px);
+transition:0.3s;
+}
+.priceTag:hover{box-shadow:0 0 20px #00ff99,0 0 40px #00ff99 inset;transform:scale(1.1);}
+
+/* LIVE */
+.liveBox{
+display:flex;align-items:center;gap:10px;position:relative;
+}
+.liveDot{
+position:relative;width:12px;height:12px;background:#00ff99;border-radius:50%;
+box-shadow:0 0 15px #00ff99,0 0 25px #00ff99;
+animation:coreBreath 1.8s infinite alternate;
+}
+.liveDot::after{
+content:"";
+position:absolute;width:100%;height:100%;border-radius:50%;
+background:#00ff99;
+box-shadow:0 0 15px #00ff99,0 0 30px #00ff99,0 0 50px #00ff99,0 0 80px #00ff99;
+animation:coreFlash 1.5s infinite alternate;
+}
+.liveDot::before{
+content:"";
+position:absolute;width:250%;height:250%;top:-75%;left:-75%;
+border-radius:50%;border:2px solid rgba(0,255,153,0.7);
+animation:ripple 2.2s infinite;
+}
+.liveBox::after{
+content:"";position:absolute;width:300%;height:300%;top:-100%;left:-100%;
+border-radius:50%;border:1px solid rgba(0,255,153,0.4);
+animation:ripple2 2.8s infinite;
+}
+.liveBox::before{
+content:"";position:absolute;width:180%;height:180%;top:-40%;left:-40%;
+border-radius:50%;border:2px dashed rgba(0,255,153,0.5);
+animation:rotateRing 4s linear infinite;
+}
+.liveText{
+font-size:12px;font-weight:bold;letter-spacing:1px;color:#00ff99;
+text-shadow:0 0 10px #00ff99,0 0 25px #00ff99,0 0 50px #00ff99;
+animation:textGlow 2s infinite alternate;
+}
+
+@keyframes coreBreath{0%{transform:scale(1);}50%{transform:scale(1.6);}100%{transform:scale(1);}}
+@keyframes coreFlash{0%{opacity:1;}50%{opacity:0.5;}100%{opacity:1;}}
+@keyframes ripple{0%{transform:scale(0.3);opacity:0.8;}70%{transform:scale(2);opacity:0;}100%{opacity:0;}}
+@keyframes ripple2{0%{transform:scale(0.5);opacity:0.6;}80%{transform:scale(2.3);opacity:0;}100%{opacity:0;}}
+@keyframes rotateRing{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
+@keyframes textGlow{0%{text-shadow:0 0 10px #00ff99,0 0 20px #00ff99;}100%{text-shadow:0 0 25px #00ff99,0 0 50px #00ff99,0 0 80px #00ff99;}}
+
+/* WHATSAPP FLOAT BUTTON */
+.wa-float{
+position:fixed;bottom:20px;right:20px;background:linear-gradient(135deg,#00ff99,#00aaff,#ff00cc);
+padding:14px 20px;border-radius:50px;cursor:pointer;font-weight:bold;color:#fff;font-size:16px;
+display:flex;align-items:center;gap:8px;box-shadow:0 0 15px #00ff99,0 0 30px #00aaff,0 0 45px #ff00cc;transition:0.3s;z-index:9999;backdrop-filter:blur(8px);
+}
+.wa-float:hover{transform:scale(1.1);box-shadow:0 0 25px #00ff99,0 0 50px #00aaff,0 0 70px #ff00cc;}
+.wa-icon{font-size:18px;animation:waPulse 1.5s infinite alternate;}
+@keyframes waPulse{0%{transform:scale(1);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1 class="ultraHeader">CPID SERVER STATUS</h1>
+</header>
+
+<nav>
+<button onclick="filter('all')">ALL</button>
+<button onclick="filter('pixel')">PIXEL</button>
+<button onclick="filter('samsung')">SAMSUNG</button>
+<button onclick="filter('xiaomi')">XIAOMI</button>
+<button onclick="filter('oppo')">OPPO</button>
+<button onclick="filter('honor')">HONOR</button>
+<button onclick="filter('iphone')">IPHONE</button>
+</nav>
+
+<div id="grid"></div>
+
+<!-- WHATSAPP FLOAT BUTTON -->
+<div class="wa-float" onclick="window.open('https://wa.me/94719141116')">
+<i class="wa-icon">💬</i> WhatsApp
+</div>
+
+<script>
+const services=[
+{name:"PIXEL FRP",cat:"pixel",price:"37.50$"},
+{name:"PIXEL NETWORK UNLOCK",cat:"pixel",price:"45$"},
+{name:"SAMSUNG FRP (KG DEVICE)",cat:"samsung",price:"30$"},
+{name:"SAMSUNG NETWORK UNLOCK 🔓",cat:"samsung",price:"23$"},
+{name:"OPPO FRP ANDROID 15-16",cat:"oppo",price:"17$"},
+{name:"XIAOMI CHINA UBL",cat:"xiaomi",price:"32$"},
+{name:"XIAOMI GLOBAL UBL",cat:"xiaomi",price:"15$"},
+{name:"XIAOMI MI ACCOUNT UNLOCK CHINA",cat:"xiaomi",price:"29$"},
+{name:"XIAOMI MI ACCOUNT UNLOCK GLOBAL",cat:"xiaomi",price:"13$"},
+{name:"XIAOMI FRP",cat:"xiaomi",price:"7$"},
+{name:"HONOR FRP",cat:"honor",price:"36$"},
+{name:"HONOR BOOTLOADER UNLOCK KEY",cat:"honor",price:"20$"},
+{name:"HONOR GOOGLE PLAY SERVICE ENABLE",cat:"honor",price:"25$"},
+{name:"IOS BYPASS 26.2.1",cat:"iphone",price:"32$"},
+{name:"IOS BYPASS 26.3.1",cat:"iphone",price:"32$"}
+];
+
+let current=services;
+
+function render(list){
+let box=document.getElementById("grid");
+box.innerHTML="";
+list.forEach(s=>{
+box.innerHTML+=`
+<div class="card">
+<div>${s.name}</div>
+<div style="display:flex;gap:10px;align-items:center;">
+<div class="priceTag">${s.price}</div>
+<div class="liveBox">
+<div class="liveDot"></div>
+<div class="liveText">LIVE</div>
+</div>
+</div>
+</div>`;
+});
+}
+
+function filter(cat){
+if(cat==="all") current=services;
+else current=services.filter(s=>s.cat===cat);
+render(current);
+}
+
+render(current);
+</script>
+
+</body>
+</html>
