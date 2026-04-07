@@ -1,0 +1,2 @@
+# cpid-server-status.
+MAIN
